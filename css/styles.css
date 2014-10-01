@@ -1,0 +1,4 @@
+body { background: #1bbc9b; }
+h1 { color: #FFF; font-size: 120px; text-align: center; }
+#countdown { color: #FFF; font-size: 160px; text-align: center; }
+input { display: block; margin-left: auto; margin-right: auto; }
