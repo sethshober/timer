@@ -35,7 +35,77 @@
 		a method of the Window object
 		clears the timer/execution created by the setInterval method
 
+compatibility
+	DOMContentLoaded event listener
+		IE 9+
+
 */
+
+document.addEventListener('DOMContentLoaded', function() {
+
+	var volumesection = document.getElementById("volume-section");
+	var alarm = document.getElementById("alarm");
+	var block1 = document.getElementById("block1");
+	var block2 = document.getElementById("block2");
+	var block3 = document.getElementById("block3");
+	var block4 = document.getElementById("block4");
+	blockselected = 1;
+	block1.style.background = ("red");
+
+	volumesection.addEventListener("mouseover",function() {
+
+		volumesection.style.opacity = ("1");
+
+	}, false);
+
+	volumesection.addEventListener("mouseleave",function() {
+
+		volumesection.style.opacity = ("0.1");
+
+	}, false);
+
+	block1.onclick = function () {
+
+		block1.style.background = ("red");
+		block2.style.background = ("white");
+		block3.style.background = ("white");
+		block4.style.background = ("white");
+		blockselected = 1;
+
+	}
+
+	block2.onclick = function () {
+
+		block1.style.background = ("white");
+		block2.style.background = ("red");
+		block3.style.background = ("white");
+		block4.style.background = ("white");
+		blockselected = 2;
+
+	}
+
+	block3.onclick = function () {
+
+		block1.style.background = ("white");
+		block2.style.background = ("white");
+		block3.style.background = ("red");
+		block4.style.background = ("white");
+		blockselected = 3;
+
+	}
+
+	block4.onclick = function () {
+
+		block1.style.background = ("white");
+		block2.style.background = ("white");
+		block3.style.background = ("white");
+		block4.style.background = ("red");
+		blockselected = 4;
+
+	}
+
+}, false);
+
 
 function totalSeconds() {
 
@@ -67,7 +137,32 @@ function startInterval() {
 
 			if (t === 0) { // if there are no remaining seconds, alert the user, otherwise subtract one second from the total remaining
 
-		        clearInterval(countdownTimer); // stop the interval defined in the global variable countdownTimer
+				clearInterval(countdownTimer); // stop the interval defined in the global variable countdownTimer
+
+				switch(blockselected) { // determine volume selected
+
+					case blockselected = 1:
+						alarm.volume = 0.0;
+						break;
+
+					case blockselected = 2:
+						alarm.volume = 0.33;
+						break;
+
+					case blockselected = 3:
+						alarm.volume = 0.66;
+						break;
+
+					case blockselected = 4:
+						alarm.volume = 1.0;
+						break;
+
+					default:
+						alarm.volume = 0.0;
+						
+				}
+
+		        alarm.play();
 		        document.getElementById("countdown").innerHTML = "Beep Beep"; // replace the countdown with an alert
 
 		    } else {
@@ -88,7 +183,12 @@ function startInterval() {
 
 function refresh() {
 
-	clearInterval(countdownTimer); // stop the interval defined in the global variable countdownTimer
+	if (typeof countdownTimer !== 'undefined') { // if countdown timer has been defined
+		
+		clearInterval(countdownTimer); // stop the interval defined in the global variable countdownTimer
+	
+	}
+
 	document.getElementById("countdown").innerHTML = "Countdown"; // switch the timer back to the original title
 	document.getElementById("days").value = ""; // empty all three inputs
 	document.getElementById("hours").value = "";
