@@ -45,64 +45,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	var volumesection = document.getElementById("volume-section");
 	var alarm = document.getElementById("alarm");
-	var block1 = document.getElementById("block1");
-	var block2 = document.getElementById("block2");
-	var block3 = document.getElementById("block3");
-	var block4 = document.getElementById("block4");
+	var blocks = document.querySelectorAll(".vol-block"); // returns a NodeList containing all .vol-block(s)
+	var block1 = blocks[0];
+	var block2 = blocks[1];
+	var block3 = blocks[2];
+	var block4 = blocks[3];
 	blockselected = 1;
 	block1.style.background = ("red");
 
-	volumesection.addEventListener("mouseover",function() {
+	volumesection.addEventListener("mouseover",function() { // fade volume section in on mouseover
 
-		volumesection.style.opacity = ("1");
-
-	}, false);
-
-	volumesection.addEventListener("mouseleave",function() {
-
-		volumesection.style.opacity = ("0.1");
+		this.style.opacity = ("1");
 
 	}, false);
 
-	block1.onclick = function () {
+	volumesection.addEventListener("mouseleave",function() { // fade volume section out on mouseleave
 
-		block1.style.background = ("red");
+		this.style.opacity = ("0.1");
+
+	}, false);
+
+	block1.onclick = function () { // selects mute volume block, blockselected prepares for later setting of volume
+
+		this.style.background = ("red");
 		block2.style.background = ("white");
 		block3.style.background = ("white");
 		block4.style.background = ("white");
 		blockselected = 1;
 
-	}
+	};
 
 	block2.onclick = function () {
 
 		block1.style.background = ("white");
-		block2.style.background = ("red");
+		this.style.background = ("red");
 		block3.style.background = ("white");
 		block4.style.background = ("white");
 		blockselected = 2;
 
-	}
+	};
 
 	block3.onclick = function () {
 
 		block1.style.background = ("white");
 		block2.style.background = ("white");
-		block3.style.background = ("red");
+		this.style.background = ("red");
 		block4.style.background = ("white");
 		blockselected = 3;
 
-	}
+	};
 
 	block4.onclick = function () {
 
 		block1.style.background = ("white");
 		block2.style.background = ("white");
 		block3.style.background = ("white");
-		block4.style.background = ("red");
+		this.style.background = ("red");
 		blockselected = 4;
 
-	}
+	};
 
 }, false);
 
@@ -139,10 +140,10 @@ function startInterval() {
 
 				clearInterval(countdownTimer); // stop the interval defined in the global variable countdownTimer
 
-				switch(blockselected) { // determine volume selected
+				switch(blockselected) { // determine volume selected from blockselected
 
 					case blockselected = 1:
-						alarm.volume = 0.0;
+						alarm.volume = 0.0; // set volume property of audio element
 						break;
 
 					case blockselected = 2:
