@@ -4,7 +4,6 @@
 		ex. var days = document.getElementById("days").value;
 		The value property sets or returns the value of the value attribute of a text field.
 		The value property contains the default value OR the value a user types in (or a value set by a script).
-		other properties to consider .checked .selected
 
 	Math.floor()
 
@@ -35,165 +34,77 @@
 		a method of the Window object
 		clears the timer/execution created by the setInterval method
 
-compatibility
-	DOMContentLoaded event listener
-		IE 9+
-
 */
 
-document.addEventListener('DOMContentLoaded', function() {
-
-	var volumesection = document.getElementById("volume-section");
-	var alarm = document.getElementById("alarm");
-	var blocks = document.querySelectorAll(".vol-block"); // returns a NodeList containing all .vol-block(s)
-	var block1 = blocks[0];
-	var block2 = blocks[1];
-	var block3 = blocks[2];
-	var block4 = blocks[3];
-	blockselected = 1;
-	block1.style.background = ("red");
-
-	volumesection.addEventListener("mouseover",function() { // fade volume section in on mouseover
-
-		this.style.opacity = ("1");
-
-	}, false);
-
-	volumesection.addEventListener("mouseleave",function() { // fade volume section out on mouseleave
-
-		this.style.opacity = ("0.1");
-
-	}, false);
-
-	block1.onclick = function () { // selects mute volume block, blockselected prepares for later setting of volume
-
-		this.style.background = ("red");
-		block2.style.background = ("white");
-		block3.style.background = ("white");
-		block4.style.background = ("white");
-		blockselected = 1;
-
-	};
-
-	block2.onclick = function () {
-
-		block1.style.background = ("white");
-		this.style.background = ("red");
-		block3.style.background = ("white");
-		block4.style.background = ("white");
-		blockselected = 2;
-
-	};
-
-	block3.onclick = function () {
-
-		block1.style.background = ("white");
-		block2.style.background = ("white");
-		this.style.background = ("red");
-		block4.style.background = ("white");
-		blockselected = 3;
-
-	};
-
-	block4.onclick = function () {
-
-		block1.style.background = ("white");
-		block2.style.background = ("white");
-		block3.style.background = ("white");
-		this.style.background = ("red");
-		blockselected = 4;
-
-	};
-
-}, false);
-
-
-function totalSeconds() {
+function totalSeconds() { // totalSeconds function definition, determine total seconds from inputs
 
 	var days = document.getElementById("days").value; // local variable days is the input value from #days
 	var hours = document.getElementById("hours").value; // local variable hours is the input value from #hours
 	var minutes = document.getElementById("minutes").value; // local variable minutes is the input value from #minutes
+	var seconds = document.getElementById("seconds").value; // local variable seconds is the input value from #seconds
 
-	if (document.getElementById("start").className === "pure-button") { // if an interval isn't already running
+	if(days == "" && hours == "" && minutes == "" && seconds == ""){swal("Forgot Something?", "Please provide a time input.", "info");};
 
-		t = (days * 86400) + (hours * 3600) + (minutes * 60); // global variable t is the total number of seconds
-		startInterval();
+	t = (days * 86400) + (hours * 3600) + (minutes * 60) + (seconds); // global variable t is the total number of seconds
 
-	}
-}
+	if(t > 0) { // if a duration of time has been entered, start the interval, otherwise ask for a duration of time
 
-function startInterval() {
-
-	if (t > 0) { // if a duration of time has been entered, start the interval, otherwise ask for a duration of time
-
-		document.getElementById("start").className += " pure-button-disabled"; // button to inactive state
-		countdownTimer = setInterval(function() {
-
-			var h = Math.floor(t / 3600); // local variable h, determine the total remaining hours
-			var m = Math.floor(t % 3600 / 60); // local variable m, determine the total remaining minutes
-			var s = Math.floor(t % 3600 % 60); // local variable s, determine the total remaining seconds
-
-			document.getElementById("countdown").innerHTML = ((h > 0 ? h + ":" : "") + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "00:") + (s < 10 ? "0" : "") + s);
-			// format the total remaining time and put it into <h1 id="countdown"></h1>
-
-			if (t === 0) { // if there are no remaining seconds, alert the user, otherwise subtract one second from the total remaining
-
-				clearInterval(countdownTimer); // stop the interval defined in the global variable countdownTimer
-
-				switch(blockselected) { // determine volume selected from blockselected
-
-					case blockselected = 1:
-						alarm.volume = 0.0; // set volume property of audio element
-						break;
-
-					case blockselected = 2:
-						alarm.volume = 0.33;
-						break;
-
-					case blockselected = 3:
-						alarm.volume = 0.66;
-						break;
-
-					case blockselected = 4:
-						alarm.volume = 1.0;
-						break;
-
-					default:
-						alarm.volume = 0.0;
-						
-				}
-
-		        alarm.play();
-		        document.getElementById("countdown").innerHTML = "Beep Beep"; // replace the countdown with an alert
-
-		    } else {
-
-		        t--; // subtract one second from the total remaining seconds
-
-		    }
-
-		}, 1000);
+	countdownTimer = setInterval("remainingTime()", 1000); // set global variable countdownTimer
+											 			   // run remainingTime() once every second
 
 	} else {
 
-		window.alert("Please enter a duration of time..");
+		window.alert("Please enter a duration of time.."); // pop up window prompts the user
 
 	}
-
 }
 
-function refresh() {
+function remainingTime() { // remainingTime function definition, this will run every second
 
-	if (typeof countdownTimer !== 'undefined') { // if countdown timer has been defined
-		
-		clearInterval(countdownTimer); // stop the interval defined in the global variable countdownTimer
-	
-	}
+	var h = Math.floor(t / 3600); // local variable h, determine the total remaining hours
+	var m = Math.floor(t % 3600 / 60); // local variable m, determine the total remaining minutes
+	var s = Math.floor(t % 3600 % 60); // local variable s, determine the total remaining seconds
 
+	document.getElementById("countdown").innerHTML = ((h > 0 ? h + ":" : "") + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "00:") + (s < 10 ? "0" : "") + s);
+	// format the total remaining time and put it into <h1 id="countdown"></h1>
+
+	if (t == 0) { // if there are no remaining seconds, alert the user, otherwise subtract one second from the total remaining
+
+        clearInterval(countdownTimer); // stop the interval defined in the global variable countdownTimer
+        
+        //run repeat if checked
+        if(document.getElementById('repeat').checked){
+        	totalSeconds();
+        } else {
+        	swal("Beep Beep", null, "success")
+    	}
+
+        //totalSeconds();
+        //document.getElementById("countdown").innerHTML = "Beep Beep"; // replace the countdown with an alert
+
+    } else {
+
+        t--; // subtract one second from the total remaining seconds
+
+    }
+}
+
+function refresh() { // refresh function definition, pretty much a reset
+
+	clearInterval(countdownTimer); // stop the interval defined in the global variable countdownTimer
 	document.getElementById("countdown").innerHTML = "Countdown"; // switch the timer back to the original title
 	document.getElementById("days").value = ""; // empty all three inputs
 	document.getElementById("hours").value = "";
 	document.getElementById("minutes").value = "";
-	document.getElementById("start").className = "pure-button"; // button to default state
+	document.getElementById("seconds").value = "";
 
 }
+
+
+//start count via ENTER button
+window.addEventListener("keyup", function(event){
+	if(event.keyCode == 13){
+		//event.preventDefault();
+		document.getElementById('start').click();
+	}
+});
