@@ -6,10 +6,8 @@
 	<title>Timer</title>
 	<link rel="stylesheet" href="css/pure.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
     <style>
-    #volume-section img { margin-top: 90px; margin-left: auto; margin-right: auto; display: block; }
-    #volume-section div { margin-left: auto; margin-right: auto; display: block; margin-bottom: 50px; }
-    .vol-block { margin-top: 95px; height: 20px; width: 20px; background: white; cursor: pointer; }
 
     </style>
 	<script src="js/scripts.js"></script>
@@ -30,39 +28,31 @@
 			<input id="hours" placeholder="hours">
 			<br>
 			<input id="minutes" placeholder="minutes">
+			<br>
+			<input id="seconds" placeholder="seconds">
+			<div class="switch">
+  				<input id="repeat" type="checkbox">
+  				<label for="repeat"></label>
+			</div> 
 		</div>
 	</div>
-	<br><br><br><br><br><br>
+	<br><br><br><br>
 	<div class="pure-g">
-		<div class="pure-u-1" style="margin: 0 auto; text-align: center;">
-			<button id="start" class="pure-button" style="font-size: 35px;" onclick="totalSeconds()">Start</button>
+		<div class="pure-u-1" style=" margin: 0 auto; text-align: center;">
+			<button class="pure-button" style="font-size: 35px;" onclick="totalSeconds()" id="start">Start</button>
 			<button class="pure-button" style="font-size: 35px;" onclick="refresh()">Clear</button>
-			<audio id="alarm">
-				<source src="media/alarm_beep.wav" type="audio/wav">
-			</audio>
 		</div>
 	</div>
-	<div class="pure-g" id="volume-section" style="opacity: 0.1;">
-		<div class="pure-u-1-8"></div>
-		<div class="pure-u-1-8">
-			<img src="media/muted_32.png">
-		</div>
-		<div class="pure-u-1-8">
-			<div class="vol-block" id="block1"></div>
-		</div>
-		<div class="pure-u-1-8">
-			<div class="vol-block" id="block2"></div>
-		</div>
-		<div class="pure-u-1-8">
-			<div class="vol-block" id="block3"></div>
-		</div>
-		<div class="pure-u-1-8">
-			<div class="vol-block" id="block4"></div>
-		</div>
-		<div class="pure-u-1-8">
-			<img src="media/raise_32.png">
-		</div>
-		<div class="pure-u-1-8"></div>
-	</div>
+	<script src="js/sweet-alert.js"></script>
+	<script>
+		// $(document).ready(function(){   
+		// 	swal({     
+		// 		title: "Error!",     
+		// 		text: "Here's my error message!",     
+		// 		type: "error",     
+		// 		confirmButtonText: "Cool"   
+		// 	}); 
+		// });
+	</script>
 </body>
 </html>
